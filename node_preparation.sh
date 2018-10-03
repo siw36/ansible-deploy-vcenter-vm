@@ -16,10 +16,9 @@ case $HOSTOS in
         sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
         # Add user ansible to sudo group
         sudo usermod -aG wheel ansible
-        # Allow ansible user to use sudo without password
-        sudo sed -i s/'%wheel'/'# %wheel'/ /etc/sudoers
-        sudo sed -i s/'# %wheel'/'%wheel'/ /etc/sudoers
-        sudo sed -i s/'NOPASSWD: ALL'/'NOPASSWD: ALL'/ /etc/sudoers
+        # Allow wheel users to use sudo without password
+        sudo sed -E s/'^%wheel[ \t]ALL=\(ALL\)[ \t]ALL'/'#%wheel ALL=(ALL) ALL'/ /etc/sudoers
+        sudo sed -E s/'^# %wheel[ \t]ALL=\(ALL\)[ \t]NOPASSWD: ALL'/'%wheel ALL=(ALL) NOPASSWD: ALL'/ /etc/sudoers
         # Update
         sudo yum update -y
         # Install Python modules
