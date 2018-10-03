@@ -15,8 +15,9 @@ case $HOSTOS in
         # Set the password
         echo $ANSIBLEPASS | passwd ansible --stdin
         # Allow ansible user to use sudo without password
+        sudo sed -i s/'%wheel'/'# %wheel'/ /etc/sudoers
         sudo sed -i s/'# %wheel'/'%wheel'/ /etc/sudoers
-        sudo sed -i s/'NOPASSWD: ALL'/'NOPASSWD: ansible'/ /etc/sudoers
+        sudo sed -i s/'NOPASSWD: ALL'/'NOPASSWD: ALL'/ /etc/sudoers
         # Update
         sudo yum update -y
         # Install Python modules
