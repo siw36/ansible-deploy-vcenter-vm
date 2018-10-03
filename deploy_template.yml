@@ -1,0 +1,91 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  
+  vars_prompt:
+  - name: "vcenter_name"
+    prompt: "vCenter Hostname"
+    default: "vcenter.siw.network"
+  - name: "vsphere_user"
+    prompt: "vCenter Username"
+    default: "administrator@vsphere.siw.network"    
+   - name: "vsphere_password"
+    prompt: "vCenter Password"
+    default: "secret"
+   - name: "vm_name"
+    prompt: "VM Name"
+    default: "new_vm_01"
+   - name: "template_name"
+    prompt: "Template name"
+    default: "Template-Fedora18"
+   - name: "datacenter_name"
+    prompt: "vSphere Datacenter Name"
+    default: "siw.network"
+   - name: "esxi"
+    prompt: "ESXi Hostname"
+    default: "esxi.siw.network"
+   - name: "ram"
+    prompt: "RAM in MB"
+    default: "2048"
+  - name: "cpu"
+    prompt: "Number of CPUs"
+    default: "2"    
+   - name: "vm_dns1"
+    prompt: "First DNS Server"
+    default: "10.0.1.1"
+   - name: "vm_dns2"
+    prompt: "Second DNS Server"
+    default: "1.1.1.1"
+   - name: "vm_domain"
+    prompt: "Domain"
+    default: "siw.network"
+   - name: "vm_password"
+    prompt: "Root Password"
+    default: "secret"
+   - name: "vm_iface"
+    prompt: "NIC Name"
+    default: "ens192"   
+    - name: "ip"
+    prompt: "IP Address"
+    default: "10.0.1.123"
+   - name: "netmask"
+    prompt: "Netmask"
+    default: "255.255.255.0"
+   - name: "gateway"
+    prompt: "Gateway"
+    default: "10.0.1.1"    
+    
+  tasks:
+  - name: Create a VM from a template
+    vmware_guest:
+      hostname: '{{ vcenter_name }}'
+      username: '{{ vsphere_user }}'
+      password: '{{ vsphere_password }}'
+      validate_certs: no
+      name: '{{ vm_name }}'
+      state: poweredon
+      template: '{{ template_name }}'
+      datacenter: '{{ datacenter_name }}'
+      esxi_hostname: '{{ esxi }}'
+      hardware:
+        memory_mb: '{{ ram }}'
+        num_cpus: '{{ cpu }}'
+        scsi: lsilogic
+      customization:
+        autologon: yes
+        dns_servers:
+        - '{{ vm_dns1 }}'
+        - '{{ vm_dns2 }}'
+        domain: '{{ vm_domain }}'
+        password: '{{ vm_password }}'
+      networks:
+      - name: '{{ vm_iface }}'
+        ip: '{{ ip }}'
+        netmask: '{{ netmask }}'
+        gateway: '{{ gateway }}'
+        type: static
+        start_connected: true
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    register: deploy
