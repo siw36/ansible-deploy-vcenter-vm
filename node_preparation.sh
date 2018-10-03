@@ -34,7 +34,7 @@ case $HOSTOS in
         # Set the password
         sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
         # Add user ansible to sudo group
-        sudo usermod -aG wheel ansible
+        sudo usermod -aG sudo ansible
         # Allow wheel users to use sudo without password
         sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
         sudo echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
