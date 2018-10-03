@@ -29,13 +29,19 @@ case $HOSTOS in
         exit 0
         ;;
     '"Ubuntu"'|'"Debian"')
+        # Create user ansible
+        sudo useradd ansible
+        # Set the password
+        sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
+        # Add user ansible to sudo group
+        sudo usermod -aG wheel ansible
+        # Allow wheel users to use sudo without password
+        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
+        echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
         # Update
         sudo apt update -y && sudo apt upgrade -y
         # Install Python modules
         sudo yum install -y python2 python-simplejson
-        # Generate SSH ID and copy to ansible tower
-        #ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N "$SSHPASS"
-        #ssh-copy-id ansible@$TOWER
         echo "Done"
         exit 0
         ;;
