@@ -4,10 +4,10 @@
 $HOSTOS=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
 
 # Read password for ssh key encryption
-read -p "Enter passphrase for the ssh key file" SSHPASS
+read -p "Enter passphrase for the ssh key file: " SSHPASS
 
 # Read password for ssh key encryption
-read -p "Enter Ansible Tower IP address/FQDN" TOWER
+read -p "Enter Ansible Tower IP address/FQDN: " TOWER
 
 case $HOSTOS in
     '"CentOS Linux"'|'Fedora')
