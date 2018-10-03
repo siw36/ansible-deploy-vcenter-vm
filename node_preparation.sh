@@ -37,7 +37,7 @@ case $HOSTOS in
         sudo usermod -aG wheel ansible
         # Allow wheel users to use sudo without password
         sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
-        echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+        sudo echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
         # Update
         sudo apt update -y && sudo apt upgrade -y
         # Install Python modules
