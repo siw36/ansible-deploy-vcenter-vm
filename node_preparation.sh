@@ -30,13 +30,13 @@ case $HOSTOS in
         ;;
     '"Ubuntu"'|'"Debian"')
         # Create user ansible
-        sudo useradd ansible
+        sudo adduser ansible --shell /bin/bash --gecos "" --disabled-password
         # Set the password
-        sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
+        sudo echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | sudo passwd ansible
         # Add user ansible to sudo group
         sudo usermod -aG sudo ansible
-        # Allow wheel users to use sudo without password
-        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
+        # Allow sudo users to use sudo without password
+        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers > output.txt
         sudo echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
         # Update
         sudo apt update -y && sudo apt upgrade -y
