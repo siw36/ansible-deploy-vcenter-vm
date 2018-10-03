@@ -11,9 +11,11 @@ read -p "Enter password for the ansible user: " ANSIBLEPASS
 case $HOSTOS in
     '"CentOS Linux"'|'Fedora')
         # Create user ansible
-        useradd ansible
+        sudo useradd ansible
         # Set the password
-        echo $ANSIBLEPASS | passwd ansible --stdin
+        sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
+        # Add user ansible to sudo group
+        sudo usermod -aG wheel ansible
         # Allow ansible user to use sudo without password
         sudo sed -i s/'%wheel'/'# %wheel'/ /etc/sudoers
         sudo sed -i s/'# %wheel'/'%wheel'/ /etc/sudoers
