@@ -36,7 +36,7 @@ case $HOSTOS in
         # Add user ansible to sudo group
         sudo usermod -aG sudo ansible
         # Allow sudo users to use sudo without password
-        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers > output.txt
+        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
         sudo echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
         # Update
         sudo apt update -y && sudo apt upgrade -y
