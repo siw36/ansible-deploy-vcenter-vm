@@ -29,6 +29,11 @@ case $HOSTOS in
         exit 0
         ;;
     '"Ubuntu"'|'"Debian"')
+        # Check if user is root
+        if [ "$EUID" -ne 0 ]
+          then echo "Please run this script as root"
+          exit 1
+        fi
         # Create user ansible
         sudo adduser ansible --shell /bin/bash --gecos "" --disabled-password
         # Set the password
