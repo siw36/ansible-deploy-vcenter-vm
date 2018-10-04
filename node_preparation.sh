@@ -25,6 +25,18 @@ case $HOSTOS in
 	echo "***Install packages: libselinux-python"
 	sudo yum -y -q install libselinux-python
 	echo "-->Installation finished"
+	# Install SSH server
+	echo "***Install packages: openssh-server"
+	sudo yum -y -q install openssh-server
+	echo "-->Installation finished"
+	# Enable SSH and check if server is running
+	systemctl enable sshd
+	systemctl start sshd	
+	SSHSTATUS=$(systemctl show -p ActiveState sshd)
+	if [ "$SSHSTATUS" != "ActiveState=active" ]
+		then echo "SSH Server is not running. Please Check the shhd service"
+		exit 1
+	fi
 	# Create user ansible
 	echo "***Create user: ansible"
 	sudo useradd ansible
