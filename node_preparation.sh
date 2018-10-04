@@ -14,23 +14,29 @@ case $HOSTOS in
 	######################################################################################
 	'"CentOS Linux"'|'Fedora'|'"Red Hat Enterprise Linux Server"')
 	# Update
-	echo "*Updating the System"
+	echo "***Update the System"
 	sudo yum -y -q update
-	echo "->Update finished"
+	echo "-->Update finished"
 	# Install Python modules
-	echo "*Installing packages: python2 python-simplejson"
+	echo "***Install packages: python2 python-simplejson"
 	sudo yum -y -q install python2 python-simplejson
-	echo "->Installation finished"
+	echo "-->Installation finished"
 	# Install SELinux modules
-	echo "*Installing packages: libselinux-python"
+	echo "***Install packages: libselinux-python"
 	sudo yum -y -q install libselinux-python
-	echo "->Installation finished"
+	echo "-->Installation finished"
 	# Create user ansible
+	echo "***Create user: ansible"
 	sudo useradd ansible
+	echo "-->Creation finished"
 	# Set the password
+	echo "***Set password for user ansible"
 	sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
+	echo "-->Password set"
 	# Add user ansible to sudo group
+	echo "***Add user ansible to wheel group"
 	sudo usermod -aG wheel ansible
+	echo "-->Group set"
 	# Allow wheel users to use sudo without password
 	echo "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation"
 	sudo sed -i -E s/'^%wheel[ \t]ALL=\(ALL\)[ \t]ALL'/'#%wheel ALL=(ALL) ALL'/ /etc/sudoers
