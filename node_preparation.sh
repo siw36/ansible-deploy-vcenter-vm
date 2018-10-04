@@ -76,18 +76,18 @@ case $HOSTOS in
           exit 1
         fi
 	# Update
-        apt update -y && sudo apt upgrade -y
+        apt update -qq && sudo apt upgrade -qq
         # Install Python modules
-        apt install -y python2 python-simplejson
+        apt install -qq python2 python-simplejson
         # Install ssh/sshd
-        apt install -y openssh-server
+        apt install -qq openssh-server
 	# Install sudo
-	apt install -y sudo
+	apt install -qq sudo
         # Enable SSH and check if server is running
         systemctl enable ssh
-        systemctl start sshd	
-        SSHSTATUS=$(systemctl show -p ActiveState --value sshd)
-	if [ "$SSHSTATUS" == "active" ]
+        systemctl start ssh	
+        SSHSTATUS=$(systemctl show -p ActiveState --value ssh)
+	if [ "$SSHSTATUS" != "active" ]
 	  then echo "SSH Server is not running. Please Check the shhd service"
 	  exit 1
 	fi
