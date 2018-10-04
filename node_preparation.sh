@@ -76,13 +76,13 @@ case $HOSTOS in
           exit 1
         fi
 	# Update
-        apt update -qq && sudo apt upgrade -qq
+        apt -qq update && sudo apt -qq upgrade
         # Install Python modules
-        apt install -qq python2 python-simplejson
+        apt -qq install python
         # Install ssh/sshd
-        apt install -qq openssh-server
+        apt -qq install openssh-server
 	# Install sudo
-	apt install -qq sudo
+	apt -qq install sudo
         # Enable SSH and check if server is running
         systemctl enable ssh
         systemctl start ssh	
