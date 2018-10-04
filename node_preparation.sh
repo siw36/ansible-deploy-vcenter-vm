@@ -28,25 +28,37 @@ case $HOSTOS in
         echo "Done"
         exit 0
         ;;
-    '"Ubuntu"'|'"Debian"')
+    '"Ubuntu"'|'"Debian GNU/Linux"')
         # Check if user is root
         if [ "$EUID" -ne 0 ]
           then echo "Please run this script as root"
           exit 1
         fi
+        # Install ssh/sshd
+        apt install -y openssh-server
+        # Enable SSH and check if server is running
+        systemctl enable sshd
+        systemctl start sshd	
+        SSHSTATUS=$(systemctl show -p ActiveState --value sshd)
+	if [ "$SSHSTATUS" -ne "active" ]
+	  then echo "SSH Server is not running. Please Check the shhd service"
+	  exit 1
+	fi
+	# Install sudo
+	apt install -y sudo
         # Create user ansible
-        sudo adduser ansible --shell /bin/bash --gecos "" --disabled-password
+        adduser ansible --shell /bin/bash --gecos "" --disabled-password
         # Set the password
-        sudo echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | sudo passwd ansible
+        echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | passwd ansible
         # Add user ansible to sudo group
-        sudo usermod -aG sudo ansible
+        usermod -aG sudo ansible
         # Allow sudo users to use sudo without password
-        sudo sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
-        sudo echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+        sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
+        echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
         # Update
-        sudo apt update -y && sudo apt upgrade -y
+        apt update -y && sudo apt upgrade -y
         # Install Python modules
-        sudo yum install -y python2 python-simplejson
+        yum install -y python2 python-simplejson
         echo "Done"
         exit 0
         ;;
