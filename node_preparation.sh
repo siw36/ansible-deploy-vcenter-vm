@@ -14,47 +14,47 @@ case $HOSTOS in
 	######################################################################################
 	'"CentOS Linux"'|'Fedora'|'"Red Hat Enterprise Linux Server"')
 	# Update
-	echo "***Update the System"
+	printf "***Update the System"
 	sudo yum -y -q update
-	echo "-->Update finished"
+	printf "-->Update finished\n\n"
 	# Install Python modules
-	echo "***Install packages: python2 python-simplejson"
+	printf "***Install packages: python2 python-simplejson"
 	sudo yum -y -q install python2 python-simplejson
-	echo "-->Installation finished"
+	printf "-->Installation finished\n\n"
 	# Install SELinux modules
-	echo "***Install packages: libselinux-python"
+	printf "***Install packages: libselinux-python"
 	sudo yum -y -q install libselinux-python
-	echo "-->Installation finished"
+	printf "-->Installation finished\n\n"
 	# Install SSH server
-	echo "***Install packages: openssh-server"
+	printf "***Install packages: openssh-server"
 	sudo yum -y -q install openssh-server
-	echo "-->Installation finished"
+	printf "-->Installation finished\n\n"
 	# Enable SSH and check if server is running
-	systemctl enable sshd
-	systemctl start sshd	
-	SSHSTATUS=$(systemctl show -p ActiveState sshd)
+	sudo systemctl enable sshd
+	sudo systemctl start sshd	
+	SSHSTATUS=$(sudo systemctl show -p ActiveState sshd)
 	if [ "$SSHSTATUS" != "ActiveState=active" ]
 		then echo "SSH Server is not running. Please Check the shhd service"
 		exit 1
 	fi
 	# Create user ansible
-	echo "***Create user: ansible"
+	printf "***Create user: ansible"
 	sudo useradd ansible
-	echo "-->Creation finished"
+	printf "-->Creation finished\n\n"
 	# Set the password
-	echo "***Set password for user ansible"
+	printf "***Set password for user ansible"
 	sudo echo $ANSIBLEPASS | sudo passwd ansible --stdin
-	echo "-->Password set"
+	printf "-->Password set\n\n"
 	# Add user ansible to sudo group
-	echo "***Add user ansible to wheel group"
+	printf "***Add user ansible to wheel group"
 	sudo usermod -aG wheel ansible
-	echo "-->Group set"
+	printf "-->Group set\n\n"
 	# Allow wheel users to use sudo without password
-	echo "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation"
+	printf "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation"
 	sudo sed -i -E s/'^%wheel[ \t]ALL=\(ALL\)[ \t]ALL'/'#%wheel ALL=(ALL) ALL'/ /etc/sudoers
 	sudo sed -i -E s/'^# %wheel[ \t]ALL=\(ALL\)[ \t]NOPASSWD: ALL'/'%wheel ALL=(ALL) NOPASSWD: ALL'/ /etc/sudoers
-	echo "->Altering sudoers finished"
-	echo "Done"
+	printf "->Altering sudoers finished\n\n"
+	printf "Done"
 	exit 0
 	;;
 	######################################################################################
