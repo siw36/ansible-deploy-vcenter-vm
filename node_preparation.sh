@@ -102,13 +102,21 @@ case $HOSTOS in
 		exit 1
 	fi
 	# Update
+	printf "***Update the System\n"
 	apt -y -q update && apt -y -q upgrade
+	printf ">>>Update finished\n\n"
 	# Install Python modules
+	printf "***Install packages: python2 python-simplejson\n"
 	apt -y -q install python
+	printf ">>>Installation finished\n\n"
 	# Install ssh/sshd
+	printf "***Install packages: openssh-server\n"
 	apt -y -q install openssh-server
+	printf ">>>Installation finished\n\n"
 	# Install sudo
+	printf "***Install packages: sudo\n"
 	apt -y -q install sudo
+	printf ">>>Installation finished\n\n"
 	# Enable SSH and check if server is running
 	systemctl enable ssh
 	systemctl start ssh	
@@ -118,15 +126,23 @@ case $HOSTOS in
 		exit 1
 	fi
 	# Create user ansible
+	printf "***Create user: ansible\n"
 	adduser ansible --shell /bin/bash --gecos "" --disabled-password
+	printf ">>>Creation finished\n\n"
 	# Set the password
+	printf "***Set password for user ansible\n"
 	echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | passwd ansible
+	printf ">>>Password set\n\n"
 	# Add user ansible to sudo group
+	printf "***Add user ansible to wheel group\n"
 	usermod -aG sudo ansible
+	printf ">>>Group set\n\n"
 	# Allow sudo users to use sudo without password
+	printf "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
-	echo "Done"
+	printf ">>>Altering sudoers finished\n\n"
+	printf "Done\n"
 	exit 0
 	;;
 	*)
