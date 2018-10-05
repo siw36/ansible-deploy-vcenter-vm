@@ -3,6 +3,11 @@
 # Debugging
 #set -x
 
+# Set host information vars
+
+IP4=$(ip addr | grep -Po 'inet \K[\d.]+')
+FQDN=$(hostname -f)
+
 # Detect the host os type
 HOSTOS=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
 
@@ -104,7 +109,10 @@ case $HOSTOS in
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
-	echo "Done"
+	printf ">>>Host preparation finished\n>>>Review the output above for errors!\n\n>>>This host can now be added to your Ansible inventory\n>>>Hostname: $FQDN\n"
+	for i in $IP4; do
+		printf ">>>IP: $i\n"
+	done
 	exit 0
 	;;
 	######################################################################################
