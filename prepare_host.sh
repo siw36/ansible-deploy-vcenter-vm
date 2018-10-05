@@ -60,7 +60,10 @@ case $HOSTOS in
 	sudo sed -i -E s/'^%wheel[ \t]ALL=\(ALL\)[ \t]ALL'/'#%wheel ALL=(ALL) ALL'/ /etc/sudoers
 	sudo sed -i -E s/'^# %wheel[ \t]ALL=\(ALL\)[ \t]NOPASSWD: ALL'/'%wheel ALL=(ALL) NOPASSWD: ALL'/ /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
-	printf "Done\n"
+	printf ">>>Host preparation finished\n>>>Review the output above for errors!\n\n>>>This host can now be added to your Ansible inventory\n>>>Hostname: $FQDN\n"
+	for i in $IP4; do
+		printf ">>>IP: $i\n"
+	done
 	exit 0
 	;;
 	######################################################################################
@@ -165,7 +168,10 @@ case $HOSTOS in
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
-	printf "Done\n"
+	printf ">>>Host preparation finished\n>>>Review the output above for errors!\n\n>>>This host can now be added to your Ansible inventory\n>>>Hostname: $FQDN\n"
+	for i in $IP4; do
+		printf ">>>IP: $i\n"
+	done
 	exit 0
 	;;
 	*)
