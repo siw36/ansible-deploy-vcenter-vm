@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -x
+# Debugging
+#set -x
 
 # Detect the host os type
 HOSTOS=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
@@ -67,28 +68,42 @@ case $HOSTOS in
 		exit 1
 	fi
 	# Update
-	apt update -y && sudo apt upgrade -y
+	printf "***Update the System\n"
+	apt-get -y -q update && sudo apt-get -y -q upgrade
+	printf ">>>Update finished\n\n"
 	# Install Python modules
-	apt install -y python2 python-simplejson
+	printf "***Install packages: python2 python-simplejson\n"
+	apt-get -y -q install python2 python-simplejson
+	printf ">>>Installation finished\n\n"
 	# Install ssh/sshd
-	apt install -y openssh-server
+	printf "***Install packages: openssh-server\n"
+	apt-get -y -q install openssh-server
+	printf ">>>Installation finished\n\n"
 	# Enable SSH and check if server is running
 	systemctl enable ssh
-	systemctl start sshd	
-	SSHSTATUS=$(systemctl show -p ActiveState --value sshd)
-	if [ "$SSHSTATUS" == "active" ]
+	systemctl start ssh
+	SSHSTATUS=$(systemctl show -p ActiveState --value ssh)
+	if [ "$SSHSTATUS" != "active" ]
 		then echo "SSH Server is not running. Please Check the shhd service"
 		exit 1
 	fi
 	# Create user ansible
+	printf "***Create user: ansible\n"
 	adduser ansible --shell /bin/bash --gecos "" --disabled-password
+	printf ">>>Creation finished\n\n"
 	# Set the password
+	printf "***Set password for user ansible\n"
 	echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | passwd ansible
+	printf ">>>Password set\n\n"
 	# Add user ansible to sudo group
+	printf "***Add user ansible to sudo group\n"
 	usermod -aG sudo ansible
+	printf ">>>Group set\n\n"
 	# Allow sudo users to use sudo without password
+	printf "*Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+	printf ">>>Altering sudoers finished\n\n"
 	echo "Done"
 	exit 0
 	;;
@@ -134,11 +149,11 @@ case $HOSTOS in
 	echo -e  "$ANSIBLEPASS\n$ANSIBLEPASS" | passwd ansible
 	printf ">>>Password set\n\n"
 	# Add user ansible to sudo group
-	printf "***Add user ansible to wheel group\n"
+	printf "***Add user ansible to sudo group\n"
 	usermod -aG sudo ansible
 	printf ">>>Group set\n\n"
 	# Allow sudo users to use sudo without password
-	printf "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation\n"
+	printf "*Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
