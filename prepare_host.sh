@@ -24,7 +24,7 @@ case $HOSTOS in
 	sudo yum -y -q update
 	printf ">>>Update finished\n\n"
 	# Install Python modules
-	printf "***Install packages: python2 python-simplejson\n"
+	printf "***Install packages: python python-simplejson\n"
 	sudo yum -y -q install python2 python-simplejson
 	printf ">>>Installation finished\n\n"
 	# Install SELinux modules
@@ -80,7 +80,7 @@ case $HOSTOS in
 	apt-get -y -q update && sudo apt-get -y -q upgrade
 	printf ">>>Update finished\n\n"
 	# Install Python modules
-	printf "***Install packages: python2 python-simplejson\n"
+	printf "***Install packages: python python-simplejson\n"
 	apt-get -y -q install python2 python-simplejson
 	printf ">>>Installation finished\n\n"
 	# Install ssh/sshd
@@ -132,7 +132,7 @@ case $HOSTOS in
 	apt -y -q update && apt -y -q upgrade
 	printf ">>>Update finished\n\n"
 	# Install Python modules
-	printf "***Install packages: python2 python-simplejson\n"
+	printf "***Install packages: python python-simplejson\n"
 	apt -y -q install python
 	printf ">>>Installation finished\n\n"
 	# Install ssh/sshd
