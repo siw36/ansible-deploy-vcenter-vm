@@ -1,9 +1,9 @@
 # About
 ## This bash script prepares a (fresh) Linux installation for being orchestrated by Ansible
 The following prerequisites are needed for Ansible:
-- A system user which has the ability to exec sudo commands without getting promted for password confirmation
+- A system user which has the ability to exec sudo commands __without getting promted for password confirmation__
 - SSH running
-- Python2
+- Python2.6 or later
 
 This script will make sure all of the above is setup.
 
