@@ -7,6 +7,17 @@ The following prerequisites are needed for Ansible:
 
 This script will make sure all of the above is setup.
 
+# How
+The following steps are taken to acomplish the above listed requirements:
+- A complete system update
+- Install *python2 python-simplejson openssh-server*
+- Enable and start the SSH Server
+- Verify that SSH is running
+- Create a system user named ansible
+- Set the password for the ansible user
+- Add the ansible user to the sudo/wheel group
+- Alter the /etc/sudoers file to allow members of the sudo/wheel group to exec sudo commands without getting promted for a password verification
+- Print network information of the installed host
 
 # Supported Linux systems
 - RHEL 7.5
