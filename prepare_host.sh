@@ -56,7 +56,7 @@ case $HOSTOS in
 	sudo usermod -aG wheel ansible
 	printf ">>>Group set\n\n"
 	# Allow wheel users to use sudo without password
-	printf "*Altering sudoers file to allow the wheel group to use sudo without password confirtmation\n"
+	printf "***Altering sudoers file to allow the wheel group to use sudo without password confirtmation\n"
 	sudo sed -i -E s/'^%wheel[ \t]ALL=\(ALL\)[ \t]ALL'/'#%wheel ALL=(ALL) ALL'/ /etc/sudoers
 	sudo sed -i -E s/'^# %wheel[ \t]ALL=\(ALL\)[ \t]NOPASSWD: ALL'/'%wheel ALL=(ALL) NOPASSWD: ALL'/ /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
@@ -108,7 +108,7 @@ case $HOSTOS in
 	usermod -aG sudo ansible
 	printf ">>>Group set\n\n"
 	# Allow sudo users to use sudo without password
-	printf "*Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
+	printf "***Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
@@ -164,7 +164,7 @@ case $HOSTOS in
 	usermod -aG sudo ansible
 	printf ">>>Group set\n\n"
 	# Allow sudo users to use sudo without password
-	printf "*Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
+	printf "***Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
 	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
