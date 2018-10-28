@@ -7,6 +7,13 @@ The following prerequisites are needed for Ansible:
 
 This script will make sure all of the above is setup.
 
+# Wich script to use
+## prepare_host_user.sh
+Only the ansible user will be able to exec sudo commands without getting promted for password confirmation
+
+## prepare_host_group.sh
+The whole sudo/wheel group will be able to exec sudo commands without getting promted for password confirmation
+
 # How
 The following steps are taken to acomplish the above listed requirements:
 - A complete system update
