@@ -16,7 +16,7 @@ The following steps are taken to acomplish the above listed requirements:
 - Create a system user named ansible
 - Set the password for the ansible user
 - Add the ansible user to the sudo/wheel group
-- Alter the /etc/sudoers file to allow members of the sudo/wheel group to exec sudo commands without getting promted for a password verification
+- Alter the /etc/sudoers file to allow the ansible user to exec sudo commands without getting promted for a password verification
 - Print network information of the installed host
 
 # Supported Linux systems
