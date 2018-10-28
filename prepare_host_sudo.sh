@@ -110,7 +110,7 @@ case $HOSTOS in
 	# Allow sudo users to use sudo without password
 	printf "***Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
-	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
 	printf ">>>Host preparation finished\n>>>Review the output above for errors!\n\n>>>This host can now be added to your Ansible inventory\n>>>Hostname: $FQDN\n"
 	for i in $IP4; do
@@ -166,7 +166,7 @@ case $HOSTOS in
 	# Allow sudo users to use sudo without password
 	printf "***Altering sudoers file to allow the sudo group to use sudo without password confirtmation\n"
 	sed -i -E s/'^%sudo[ \t]ALL=\(ALL:ALL\)[ \t]ALL'/'#%sudo ALL=(ALL:ALL) ALL'/ /etc/sudoers
-	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+	echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
 	printf ">>>Altering sudoers finished\n\n"
 	printf ">>>Host preparation finished\n>>>Review the output above for errors!\n\n>>>This host can now be added to your Ansible inventory\n>>>Hostname: $FQDN\n"
 	for i in $IP4; do
